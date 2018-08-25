@@ -62,7 +62,6 @@ public class CustomLinearLayout extends LinearLayout implements View.OnTouchList
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        PrintUtil.log("LinearLayout onTouch");
         if (parentScrollY == 0){
             return gestureDetector.onTouchEvent(event);
         }else {
@@ -70,24 +69,11 @@ public class CustomLinearLayout extends LinearLayout implements View.OnTouchList
         }
     }
 
-    /*@Override
-    public boolean onTouchEvent(MotionEvent event) {
-        PrintUtil.log("LinearLayout onTouchEvent");
-        return super.onTouchEvent(event);
-    }*/
-
-  /*  @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        PrintUtil.log("LinearLayout dispatchTouchEvent");
-        return super.dispatchTouchEvent(ev);
-    }*/
-
     private class CustomGestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             thisView.scrollBy(0, (int) distanceY);
-//            PrintUtil.log("LinearLayout getScrollY", getScrollY());
             if (getScrollY() >= 0){
                 thisView.setScrollY(0);
                 mTopListener.isTop(true);
