@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/color_blue_light</color>
+    <color name="colorPrimaryBlue">@color/color_blue_light</color>
+    <color name="colorPrimaryDark">@color/color_blue_light</color>
+    <color name="colorAccent">@color/color_blue_light</color>
+
+    <color name="color_white">#FFFFFF</color>
+    <color name="color_transparent">#00000000</color>
+    <color name="color_gray_light">#f3f4f6</color>
+    <color name="color_gray_light1">#EEEEEE</color>
+    <color name="color_gray_light2">#caccd6</color>
+    <color name="color_gray_light3">#b5c0d0</color>
+    <color name="color_gray_dark">#808f9e</color>
+    <color name="color_gray_dark1">#65707c</color>
+    <color name="color_gray_dark2">#294058</color>
+    <color name="color_blue_light">#3193ff</color>
+    <color name="color_blue_dark111">#3C8DE4</color>
+    <color name="color_red_light">#ff424a</color>
+    <color name="color_red_light_alpha_10">#1Aff424a</color>
+    <color name="color_green_light">#00b23e</color>
+    <color name="color_green_light_alpha_10">#1A00b23e</color>
+
+
+</resources>
