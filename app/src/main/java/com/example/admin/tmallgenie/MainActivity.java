@@ -2,11 +2,15 @@ package com.example.admin.tmallgenie;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CustomLinearLayout mContainerCll;
-    private CustomScrollView mMainSv;
+    private CustomLinearLayout mLinearLayout;
+    private CustomScrollView mScrollView;
+    private RelativeLayout mTopTitleRl;
+    private TextView mTopTabTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,19 +18,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         initView();
+        setListener();
 
     }
 
     private void initView(){
-        mMainSv = findViewById(R.id.sv_main);
-        mContainerCll = findViewById(R.id.cll_item_container);
-
-        mMainSv.setCustomLinearLayout(mContainerCll);
-        mContainerCll.setCustomScrollView(mMainSv);
+        mScrollView = findViewById(R.id.sv_main);
+        mLinearLayout = findViewById(R.id.cll_item_container);
+        mTopTitleRl = findViewById(R.id.rl_top_title);
+        mTopTabTv = findViewById(R.id.tv_top_tab);
 
     }
 
+    private void setListener(){
+        mScrollView.setTopTitleView(mTopTitleRl);
+        mScrollView.setTopTabView(mTopTabTv);
+        mLinearLayout.setCustomScrollView(mScrollView);
 
+    }
 
 
 }

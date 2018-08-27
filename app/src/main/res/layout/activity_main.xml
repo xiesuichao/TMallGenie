@@ -46,6 +46,30 @@
                     android:background="@drawable/shape_white_radius10"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="语音留言"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="20dp"
+                        android:textColor="#333333"
+                        android:textSize="15sp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="精灵技能"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="50dp"
+                        android:textColor="#333333"
+                        android:textSize="15sp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="60dp">
@@ -373,8 +397,10 @@
     </com.example.admin.tmallgenie.CustomScrollView>
 
     <RelativeLayout
+        android:id="@+id/rl_top_title"
         android:layout_width="match_parent"
-        android:layout_height="44dp">
+        android:layout_height="44dp"
+        android:background="#00000000">
 
         <ImageView
             android:layout_width="24dp"
@@ -391,5 +417,20 @@
             android:textColor="#ffffff" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_top_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="15dp"
+        android:text="语音留言"
+        android:gravity="center_vertical"
+        android:textColor="#333333"
+        android:textSize="15sp"
+        android:visibility="invisible"
+        android:background="#ffffff"
+        />
 
 </RelativeLayout>
