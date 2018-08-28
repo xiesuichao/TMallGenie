@@ -22,7 +22,6 @@ public class CustomScrollView extends ScrollView {
     private int mChildLlInitY;
     private int[] mScrollViewLocationArr;
     private int[] mFirstTitleTvLocationArr;
-    private int mFirstTitleTvInitY;
     private int[] mSecondTitleTvLocationArr;
     private int mSecondTitleTvInitY;
     private int mStatusBarHeight;
@@ -150,11 +149,7 @@ public class CustomScrollView extends ScrollView {
         mSecondTitleTv = (TextView) ((LinearLayout) mChildCustomLinearLayout.getChildAt(0)).getChildAt(1);
         mFirstTitleTv.getLocationInWindow(mFirstTitleTvLocationArr);
         mSecondTitleTv.getLocationInWindow(mSecondTitleTvLocationArr);
-        mFirstTitleTvInitY = mFirstTitleTvLocationArr[1];
         mSecondTitleTvInitY = mSecondTitleTvLocationArr[1];
-
-        PrintUtil.log("mFirstTitleTvInitY", mFirstTitleTvInitY);
-        PrintUtil.log("mSecondTitleTvInitY", mSecondTitleTvInitY);
 
         getLocationInWindow(mScrollViewLocationArr);
         mStatusBarHeight = mScrollViewLocationArr[1];
@@ -170,6 +165,5 @@ public class CustomScrollView extends ScrollView {
         });
 
     }
-
 
 }

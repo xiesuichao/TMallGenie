@@ -3,30 +3,32 @@ package com.example.admin.tmallgenie;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
+import android.util.DisplayMetrics;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 
 /**
  * Created by xiesuichao on 2018/8/24.
  */
 
-public class CustomLinearLayout extends LinearLayout implements View.OnTouchListener {
+public class CustomLinearLayout extends LinearLayout {
 
-    private CustomLinearLayout thisView;
-    private GestureDetector gestureDetector;
     private OnTopListener mTopListener;
+    private OnBottomListener mBottomListener;
     private int parentScrollY = 0;
+    private Scroller mScroller;
+    private int mWindowHeight;
+    private int[] mLayoutLocationArr;
+    private final int BOTTOM_HEIGHT = 200;
+    private float mLastMoveY;
 
     public CustomLinearLayout(Context context) {
-        super(context);
-        init();
+        this(context, null);
     }
 
     public CustomLinearLayout(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs, 0);
     }
 
     public CustomLinearLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -34,15 +36,23 @@ public class CustomLinearLayout extends LinearLayout implements View.OnTouchList
         init();
     }
 
-    public interface OnTopListener{
+    public interface OnTopListener {
         void isTop(boolean state);
     }
 
-    public void setOnTopListener(OnTopListener topListener){
+    public void setOnTopListener(OnTopListener topListener) {
         this.mTopListener = topListener;
     }
 
-    public void setCustomScrollView(CustomScrollView scrollView){
+    public interface OnBottomListener{
+        void isBottom();
+    }
+
+    public void setOnBottomListener(OnBottomListener bottomListener){
+        this.mBottomListener = bottomListener;
+    }
+
+    public void setCustomScrollView(CustomScrollView scrollView) {
         scrollView.setOnScrollYChangeListener(new CustomScrollView.OnScrollYChangeListener() {
             @Override
             public void scrollYChange(int scrollY) {
@@ -52,44 +62,63 @@ public class CustomLinearLayout extends LinearLayout implements View.OnTouchList
     }
 
     private void init() {
-        thisView = this;
-        super.setOnTouchListener(this);
-        super.setClickable(true);
-        super.setLongClickable(true);
-        super.setFocusable(true);
-        gestureDetector = new GestureDetector(getContext(), new CustomGestureListener());
+        mScroller = new Scroller(getContext());
+        mLayoutLocationArr = new int[2];
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (parentScrollY == 0){
-            return gestureDetector.onTouchEvent(event);
-        }else {
+    public boolean onTouchEvent(MotionEvent event) {
+        if (parentScrollY != 0) {
             return false;
         }
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mLastMoveY = event.getY();
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                float moveY = event.getY();
+                float scrollY = mLastMoveY - moveY;
+                scrollBy(0, (int) scrollY);
+                if (getScrollY() >= 0) {
+                    setScrollY(0);
+                    mTopListener.isTop(true);
+                } else {
+                    mTopListener.isTop(false);
+                }
+
+                mLastMoveY = moveY;
+                break;
+
+            case MotionEvent.ACTION_UP:
+                if (getScrollY() <= -(mWindowHeight - mLayoutLocationArr[1] - BOTTOM_HEIGHT)) {
+                    mBottomListener.isBottom();
+                }else {
+                    mScroller.startScroll(0, getScrollY(), 0, 0 - getScrollY(), 500);
+                    invalidate();
+                }
+                break;
+        }
+        return true;
     }
 
-    private class CustomGestureListener extends GestureDetector.SimpleOnGestureListener {
 
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            thisView.scrollBy(0, (int) distanceY);
-            if (getScrollY() >= 0){
-                thisView.setScrollY(0);
-                mTopListener.isTop(true);
-            }else {
-                mTopListener.isTop(false);
-            }
-            return true;
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-            return true;
+    @Override
+    public void computeScroll() {
+        super.computeScroll();
+        if (mScroller.computeScrollOffset()) {
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            invalidate();
         }
     }
 
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        mWindowHeight = dm.heightPixels;
+        getLocationInWindow(mLayoutLocationArr);
+    }
 
 
 }
